@@ -15,4 +15,4 @@ az group create --name $RG --location $L
 
 # Create DB
 az sql server create -l $L -g $RG -n $D -u sysadmin -p P2ssw0rd
-az sql db create -g $RG -s $D -n mhcdb --service-objective S0
+az sql db create -g $RG -s $D -n partsunlimited --service-objective S0
