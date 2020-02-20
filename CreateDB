@@ -1,18 +1,19 @@
-# Create Variables
 # Get Login Name
 a=$(az ad signed-in-user show --query userPrincipalName)
 # Get change Login Name to lower-case
 A=$(echo "$a" | sed -e 's/\(.*\)/\L\1/')
 B=${A:$(echo `expr index "$A" @`)}
+# Create Variables
 C=${B:: -24}
 D=$(echo "$C"dbs01)
 RG=partsunlimited
-
 L=EastUS
 
 # Create Resource Group
 az group create --name $RG --location $L
 
-# Create DB
+# Create DB Server
 az sql server create -l $L -g $RG -n $D -u sysadmin -p P2ssw0rd
+
+# Create DB 
 az sql db create -g $RG -s $D -n partsunlimited --service-objective S0
