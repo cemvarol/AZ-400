@@ -1,0 +1,42 @@
+# Create Variables
+# Get Login Name
+a=$(az ad signed-in-user show --query userPrincipalName)
+# Get change Login Name to lower-case
+A=$(echo "$a" | sed -e 's/\(.*\)/\L\1/')
+B=${A:$(echo `expr index "$A" @`)}
+C=${B:: -24}
+# Assign aks, acr, db names to variables
+D=$(echo "$C"sql01)
+L=EastUS
+
+resourceGroupName=Nerd-RG
+adminlogin=ServerAdmin
+password=1q2w3e4r5t6y*
+servername=$D
+startip=0.0.0.0
+endip=255.255.255.255
+
+az group create --name $resourceGroupName --location $L
+
+az sql server create \
+    --name $servername \
+    --resource-group $resourceGroupName \
+    --location $L  \
+    --admin-user $adminlogin \
+    --admin-password $password
+
+az sql server firewall-rule create \
+    --resource-group $resourceGroupName \
+    --server $servername \
+    --name AllowYourIp \
+    --start-ip-address $startip \
+    --end-ip-address $endip
+
+az sql db create \
+    --resource-group $resourceGroupName \
+    --server $servername \
+    --name nerddinner \
+    --edition GeneralPurpose \
+    --family Gen4 \
+    --capacity 1 \
+    --zone-redundant false
