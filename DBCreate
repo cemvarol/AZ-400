@@ -10,7 +10,7 @@ D=$(echo "$C"sql01)
 L=EastUS
 
 resourceGroupName=Nerd-RG
-adminlogin=ServerAdmin
+adminlogin=azureuser
 password=1q2w3e4r5t6y*
 servername=$D
 startip=0.0.0.0
