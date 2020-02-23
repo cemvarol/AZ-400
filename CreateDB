@@ -8,6 +8,8 @@ C=${B:: -24}
 D=$(echo "$C"dbs01)
 RG=PartsUnlimited
 L=EastUS
+startip=0.0.0.0
+endip=255.255.255.255
 
 # Create Resource Group
 az group create --name $RG --location $L
@@ -17,3 +19,12 @@ az sql server create -l $L -g $RG -n $D -u sysadmin -p P2ssw0rd
 
 # Create DB 
 az sql db create -g $RG -s $D -n partsunlimited --service-objective S0
+
+az sql server firewall-rule create \
+    --resource-group $RG \
+    --server $D \
+    --name AllowYourIp \
+    --start-ip-address $startip \
+    --end-ip-address $endip
+    
+    
